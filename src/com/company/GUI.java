@@ -8,7 +8,8 @@ import java.awt.event.ActionListener;
 public  class GUI {
 
     // Core elements
-    JFrame f=new JFrame("Fräck applikationstitel här...");
+    JFrame jFrame =new JFrame("Fräck applikationstitel här...");
+
     final JLabel instructionLabel=new JLabel("Välj vad du vill göra");
     JButton createCarMenuButton=new JButton("Skapa bil");
     final JLabel currentCommandLabel=new JLabel("");
@@ -50,11 +51,34 @@ public  class GUI {
 
     JButton createPersonMenuButton = new JButton("Skapa person");
 
+    // Table elements
+    //headers for the carTable
+    String[] columns = new String[] {
+            "Id", "Car Brand", "Registration Number", "Item Type","Delete?"
+    };
+
+    //actual data for the carTable in a 2d array
+    Object[][] data = new Object[][] {
+            {1, "Volvo", "ANC 123", "CAR",true},
+            {2, "Mercedes", "DFA414", "CAR",false},
+            {3, "BMW", "SDF525","CAR",false},
+    };
+    //create carTable with data
+    JTable carTable = new JTable(data, columns);
+    JScrollPane scrollPane = new JScrollPane(carTable);
+
+
+
     public GUI(){
 
         // Setting JFrame settings
-        f.setSize(1024,800);
-        f.setLayout(null);
+        jFrame.setSize(1024,800);
+
+        jFrame.setLayout(null);
+
+        scrollPane.setBounds(10,120,500,100);
+        jFrame.add(scrollPane);
+
 
     // ******* Car specific ********
         // Menubutton: Create Car position
@@ -193,46 +217,46 @@ public  class GUI {
 
 
         // Adding objects
-        f.add(instructionLabel);
-        f.add(createCarMenuButton);
-        f.add(currentCommandLabel);
-        f.add(separator);
+        jFrame.add(instructionLabel);
+        jFrame.add(createCarMenuButton);
+        jFrame.add(currentCommandLabel);
+        jFrame.add(separator);
 
         // Cars
-        f.add(carBrandLabel);
-        f.add(carBrand);
-        f.add(carRegLabel);
-        f.add(createCarButton);
-        f.add(carRegNo);
+        jFrame.add(carBrandLabel);
+        jFrame.add(carBrand);
+        jFrame.add(carRegLabel);
+        jFrame.add(createCarButton);
+        jFrame.add(carRegNo);
 
         //book
-        f.add(createBookMenuButton);
+        jFrame.add(createBookMenuButton);
 
-        f.add(bookTitleLabel);
-        f.add(bookTitle);
+        jFrame.add(bookTitleLabel);
+        jFrame.add(bookTitle);
 
-        f.add(bookAuthorNameLabel);
-        f.add(bookAuthorName);
+        jFrame.add(bookAuthorNameLabel);
+        jFrame.add(bookAuthorName);
 
-        f.add(bookAuthorSurnameLabel);
-        f.add(bookAuthorSurname);
-        f.add(createBookButton);
+        jFrame.add(bookAuthorSurnameLabel);
+        jFrame.add(bookAuthorSurname);
+        jFrame.add(createBookButton);
 
         // person
-        f.add(personNameLabel);
-        f.add(personName);
-        f.add(personSurnameLabel);
-        f.add(personSurname);
-        f.add(personPhoneNumberLabel);
-        f.add(personPhoneNumber);
-        f.add(createPersonButton);
-        f.add(createPersonMenuButton);
+        jFrame.add(personNameLabel);
+        jFrame.add(personName);
+        jFrame.add(personSurnameLabel);
+        jFrame.add(personSurname);
+        jFrame.add(personPhoneNumberLabel);
+        jFrame.add(personPhoneNumber);
+        jFrame.add(createPersonButton);
+        jFrame.add(createPersonMenuButton);
 
-        f.add(creationStatus);
+        jFrame.add(creationStatus);
 
 
 
-        f.setVisible(true);
+        jFrame.setVisible(true);
         hideAllNonObligatoryElements();
 
     }
