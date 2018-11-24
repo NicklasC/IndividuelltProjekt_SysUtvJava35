@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLIntegrityConstraintViolationException;
 
 public  class GUI {
 
@@ -34,8 +33,22 @@ public  class GUI {
 
     final JLabel bookAuthorSurnameLabel = new JLabel("Författarens efternamn");
     final JTextField bookAuthorSurname = new JTextField();
-
     JButton createBookButton = new JButton("Skapa bok");
+
+    // Person elements
+    final JLabel personNameLabel = new JLabel("Namn");
+    final JTextField personName = new JTextField();
+
+
+    final JLabel personSurnameLabel = new JLabel("Efternamn");
+    final JTextField personSurname = new JTextField();
+
+    final JLabel personPhoneNumberLabel = new JLabel("Telefonnummer");
+    final JTextField personPhoneNumber = new JTextField();
+    JButton createPersonButton = new JButton("Skapa person");
+
+
+    JButton createPersonMenuButton = new JButton("Skapa person");
 
     public GUI(){
 
@@ -77,7 +90,7 @@ public  class GUI {
                     carBrand.setText("");
                     carRegNo.setText("");
                 } else {
-                    creationStatus.setText("Could not create car. Perhaps it already existed?");
+                    creationStatus.setText("Kunde inte skapa bilen. Kanske är den redan registrerad?");
                 }
                 //sökResultatTextArea.setText(printQuery(textField.getText()));
             }
@@ -113,21 +126,61 @@ public  class GUI {
         createBookButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 if(Book.createBook(bookTitle.getText(), bookAuthorName.getText(),bookAuthorSurname.getText())){
-                    creationStatus.setText("Book was created.");
+                    creationStatus.setText("Boken skapades.");
                     bookTitle.setText("");
                     bookAuthorName.setText("");
                     bookAuthorSurname.setText("");
                 } else {
-                    creationStatus.setText("Could not create Book. Perhaps it already exists?");
+                    creationStatus.setText("Kunde inte skapa boken. Kanske finns den redan registrerad?");
                 }
             }
         });
+    // ***** Create person **************
+        createPersonMenuButton.setBounds(230,50,130,20);
+        createPersonMenuButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                hideAllNonObligatoryElements();
+                currentCommandLabel.setText("Skapa person");
+                personNameLabel.setVisible(true);
+                personName.setVisible(true);
+                personSurnameLabel.setVisible(true);
+                personSurname.setVisible(true);
+                personPhoneNumberLabel.setVisible(true);
+                personPhoneNumber.setVisible(true);
+                createPersonButton.setVisible(true);
+            }
+        });
+
+        personNameLabel.setBounds(10,120,80,20);
+        personName.setBounds(180,122,150,20);
+
+        personSurnameLabel.setBounds(10,150,160,20);
+        personSurname.setBounds(180,152,150,20);
+
+        personPhoneNumberLabel.setBounds(10,180,160,20);
+        personPhoneNumber.setBounds(180,182,150,20);
+
+        createPersonButton.setBounds(10,220,120,20);
+        createPersonButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                if(Person.createPerson(personName.getText(), personSurname.getText(),personPhoneNumber.getText())){
+                    creationStatus.setText("Personen lades till.");
+                    personName.setText("");
+                    personSurname.setText("");
+                    personPhoneNumber.setText("");
+                } else {
+                    creationStatus.setText("Personen kunde inte läggas till. Kanske han / hon redan finns i registret?");
+                }
+            }
+        });
+
 
 
     // ***** Shared
         // Current command label
         currentCommandLabel.setFont(new Font("Serif", Font.PLAIN, 14));
         currentCommandLabel.setBounds(10,100,250,15);
+
 
         // Instructionslabel
         instructionLabel.setBounds(10,30,250,15);
@@ -165,7 +218,19 @@ public  class GUI {
         f.add(bookAuthorSurname);
         f.add(createBookButton);
 
+        // person
+        f.add(personNameLabel);
+        f.add(personName);
+        f.add(personSurnameLabel);
+        f.add(personSurname);
+        f.add(personPhoneNumberLabel);
+        f.add(personPhoneNumber);
+        f.add(createPersonButton);
+        f.add(createPersonMenuButton);
+
         f.add(creationStatus);
+
+
 
         f.setVisible(true);
         hideAllNonObligatoryElements();
@@ -188,6 +253,17 @@ public  class GUI {
         bookAuthorSurnameLabel.setVisible(false);
         bookAuthorSurname.setVisible(false);
         createBookButton.setVisible(false);
+
+        // person
+        personNameLabel.setVisible(false);
+        personName.setVisible(false);
+        personSurnameLabel.setVisible(false);
+        personSurname.setVisible(false);
+        personPhoneNumberLabel.setVisible(false);
+        personPhoneNumber.setVisible(false);
+        createPersonButton.setVisible(false);
+
+
 
 
         // Common
