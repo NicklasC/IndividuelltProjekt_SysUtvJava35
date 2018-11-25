@@ -51,12 +51,12 @@ public  class GUI {
 
     JButton createPersonMenuButton = new JButton("Skapa person");
 
-    // Table elements
+    //////////////////////////////////////////////// Table elements
     //headers for the carTable
     String[] columns = new String[] {
             "Id", "Car Brand", "Registration Number", "Item Type","Delete?"
     };
-
+    //Object[][] data = new Object[][]{};
     //actual data for the carTable in a 2d array
     Object[][] data = new Object[][] {
             {1, "Volvo", "ANC 123", "CAR",true},
@@ -67,17 +67,18 @@ public  class GUI {
     JTable carTable = new JTable(data, columns);
     JScrollPane scrollPane = new JScrollPane(carTable);
 
-
-
     public GUI(){
 
         // Setting JFrame settings
         jFrame.setSize(1024,800);
-
         jFrame.setLayout(null);
 
         scrollPane.setBounds(10,120,500,100);
         jFrame.add(scrollPane);
+        //carTable.(new Object[]{"Column 1", "Column 2", "Column 3"});
+
+//////////////////////////////////////////
+
 
 
     // ******* Car specific ********
