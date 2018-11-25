@@ -59,11 +59,16 @@ public  class GUI {
 
     //View Cars elements
     JButton viewCarsMenuButton = new JButton("Hantera bilar");
-
-
-    JTable carTable = new JTable(new DefaultTableModel(new Object[]{"Id", "Car Brand", "Registration Number", "Item Type"},0));
+    JTable carTable = new JTable(new DefaultTableModel(new Object[]{"Id", "Bilmärke", "Registreringsnummer", "Föremålstyp"},0));
     DefaultTableModel carModel = (DefaultTableModel) carTable.getModel();
     JScrollPane carScrollPane = new JScrollPane(carTable);
+
+    // Handle books elements
+    JButton viewBooksMenuButton = new JButton("Hantera böcker");
+    JTable bookTable = new JTable(new DefaultTableModel(new Object[]{"Id", "Boknamn", "Författare förnamn", "Författare efternamn","Föremålstyp"},0));
+    DefaultTableModel bookModel = (DefaultTableModel) bookTable.getModel();
+    JScrollPane bookScrollPane = new JScrollPane(bookTable);
+
 
     public GUI(){
 
@@ -107,7 +112,7 @@ public  class GUI {
         createCarButton.addActionListener(new ActionListener(){ // OBS: anonym inre klass!
             public void actionPerformed(ActionEvent e){
                 if(Car.createCar(carBrand.getText(), carRegNo.getText())){
-                    creationStatus.setText("Car was created.");
+                    creationStatus.setText("Bilen skapades.");
                     carBrand.setText("");
                     carRegNo.setText("");
                 } else {
@@ -197,6 +202,7 @@ public  class GUI {
 
 // Show Cars
         viewCarsMenuButton.setBounds(370,50,130,20);
+        carScrollPane.setBounds(10,120,700,200);
         viewCarsMenuButton.addActionListener(new ActionListener(){
             public void actionPerformed(ActionEvent e){
                 hideAllNonObligatoryElements();
@@ -206,11 +212,22 @@ public  class GUI {
             }
         });
 
+    // Show Books
+        viewBooksMenuButton.setBounds(510,50,130,20);
+        bookScrollPane.setBounds(10,120,700,200);
+        viewBooksMenuButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                hideAllNonObligatoryElements();
+                currentCommandLabel.setText("Hantera böcker");
+                getAllBooks();
+                bookScrollPane.setVisible(true);
+            }
+        });
 
 
-        carScrollPane.setBounds(10,120,700,100);
 
-        getAllCars();
+
+
 
 
     // ***** Shared
@@ -269,6 +286,9 @@ public  class GUI {
         jFrame.add(viewCarsMenuButton);
         jFrame.add(carScrollPane);
 
+        // View books
+        jFrame.add(viewBooksMenuButton);
+        jFrame.add(bookScrollPane);
 
 
         jFrame.add(creationStatus);
@@ -309,7 +329,8 @@ public  class GUI {
         // View cars
         carScrollPane.setVisible(false);
 
-
+        // View books
+        bookScrollPane.setVisible(false);
 
 
 
@@ -340,6 +361,31 @@ public  class GUI {
             e.printStackTrace();
         }
     }
+
+    private void getAllBooks() {
+        Connection con = MySqlCon.getConn();
+        String query = "Select book.ID,book.bookName,book.authorName,book.authorSurname,itemclasses.itemClassName from book,itemclasses where book.itemTypeID=itemclasses.ID order by book.bookName;"; // skapa en textsträng med SQL
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            bookModel.setRowCount(0);
+            while (rs.next()) { // loopa igenom resultatet
+                Vector row = new Vector();
+
+                row.add(rs.getString("ID"));
+                row.add(rs.getString("bookName"));
+                row.add(rs.getString("authorName"));
+                row.add(rs.getString("authorSurname"));
+                row.add(rs.getString("itemClassName"));
+                bookModel.addRow(row);
+            }
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 
 }
