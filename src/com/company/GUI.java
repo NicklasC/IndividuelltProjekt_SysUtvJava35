@@ -1,9 +1,15 @@
 package com.company;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
 
 public  class GUI {
 
@@ -51,31 +57,21 @@ public  class GUI {
 
     JButton createPersonMenuButton = new JButton("Skapa person");
 
-    //////////////////////////////////////////////// Table elements
-    //headers for the carTable
-    String[] columns = new String[] {
-            "Id", "Car Brand", "Registration Number", "Item Type","Delete?"
-    };
-    //Object[][] data = new Object[][]{};
-    //actual data for the carTable in a 2d array
-    Object[][] data = new Object[][] {
-            {1, "Volvo", "ANC 123", "CAR",true},
-            {2, "Mercedes", "DFA414", "CAR",false},
-            {3, "BMW", "SDF525","CAR",false},
-    };
-    //create carTable with data
-    JTable carTable = new JTable(data, columns);
-    JScrollPane scrollPane = new JScrollPane(carTable);
+    //View Cars elements
+    JButton viewCarsMenuButton = new JButton("Hantera bilar");
+
+
+    JTable carTable = new JTable(new DefaultTableModel(new Object[]{"Id", "Car Brand", "Registration Number", "Item Type"},0));
+    DefaultTableModel carModel = (DefaultTableModel) carTable.getModel();
+    JScrollPane carScrollPane = new JScrollPane(carTable);
 
     public GUI(){
+
 
         // Setting JFrame settings
         jFrame.setSize(1024,800);
         jFrame.setLayout(null);
 
-        scrollPane.setBounds(10,120,500,100);
-        jFrame.add(scrollPane);
-        //carTable.(new Object[]{"Column 1", "Column 2", "Column 3"});
 
 //////////////////////////////////////////
 
@@ -199,6 +195,22 @@ public  class GUI {
             }
         });
 
+// Show Cars
+        viewCarsMenuButton.setBounds(370,50,130,20);
+        viewCarsMenuButton.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent e){
+                hideAllNonObligatoryElements();
+                currentCommandLabel.setText("Hantera bilar");
+                getAllCars();
+                carScrollPane.setVisible(true);
+            }
+        });
+
+
+
+        carScrollPane.setBounds(10,120,700,100);
+
+        getAllCars();
 
 
     // ***** Shared
@@ -253,6 +265,12 @@ public  class GUI {
         jFrame.add(createPersonButton);
         jFrame.add(createPersonMenuButton);
 
+        // View cars
+        jFrame.add(viewCarsMenuButton);
+        jFrame.add(carScrollPane);
+
+
+
         jFrame.add(creationStatus);
 
 
@@ -288,6 +306,10 @@ public  class GUI {
         personPhoneNumber.setVisible(false);
         createPersonButton.setVisible(false);
 
+        // View cars
+        carScrollPane.setVisible(false);
+
+
 
 
 
@@ -296,14 +318,28 @@ public  class GUI {
 
     }
 
-    public void initGUI(){
+    private void getAllCars() {
+        Connection con = MySqlCon.getConn();
+        String query = "SELECT Cars.ID, Cars.carBrand, Cars.registrationNumber,itemclasses.itemClassName FROM Cars,ItemClasses where Cars.itemClassID=itemClasses.ID order by carBrand;"; // skapa en textsträng med SQL
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            carModel.setRowCount(0);
+            while (rs.next()) { // loopa igenom resultatet
+                Vector row = new Vector();
 
-
-
-
-
-
-
-
+                row.add(rs.getString("ID"));
+                row.add(rs.getString("carBrand"));
+                row.add(rs.getString("registrationNumber"));
+                row.add(rs.getString("itemClassName"));
+                carModel.addRow(row);
+            }
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
+
+
 }
