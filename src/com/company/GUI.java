@@ -46,14 +46,12 @@ public class GUI {
     final JLabel personNameLabel = new JLabel("Namn");
     final JTextField personName = new JTextField();
 
-
     final JLabel personSurnameLabel = new JLabel("Efternamn");
     final JTextField personSurname = new JTextField();
 
     final JLabel personPhoneNumberLabel = new JLabel("Telefonnummer");
     final JTextField personPhoneNumber = new JTextField();
     JButton createPersonButton = new JButton("Skapa person");
-
 
     JButton createPersonMenuButton = new JButton("Skapa person");
 
@@ -77,15 +75,11 @@ public class GUI {
 
 
     public GUI() {
-
-
         // Setting JFrame settings
         jFrame.setSize(1024, 800);
         jFrame.setLayout(null);
 
-
 //////////////////////////////////////////
-
 
         // ******* Car specific ********
         // Menubutton: Create Car position
@@ -99,8 +93,6 @@ public class GUI {
                 carRegLabel.setVisible(true);
                 carRegNo.setVisible(true);
                 createCarButton.setVisible(true);
-
-                //sökResultatTextArea.setText(printQuery(textField.getText()));
             }
         });
 
@@ -123,7 +115,6 @@ public class GUI {
                 } else {
                     creationStatus.setText("Kunde inte skapa bilen. Kanske är den redan registrerad?");
                 }
-                //sökResultatTextArea.setText(printQuery(textField.getText()));
             }
         });
 
@@ -362,7 +353,7 @@ public class GUI {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             carModel.setRowCount(0);
-            while (rs.next()) { // loopa igenom resultatet
+            while (rs.next()) {
                 Vector row = new Vector();
 
                 row.add(rs.getString("ID"));
@@ -385,7 +376,7 @@ public class GUI {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             bookModel.setRowCount(0);
-            while (rs.next()) { // loopa igenom resultatet
+            while (rs.next()) {
                 Vector row = new Vector();
 
                 row.add(rs.getString("ID"));
@@ -409,7 +400,7 @@ public class GUI {
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             personModel.setRowCount(0);
-            while (rs.next()) { // loopa igenom resultatet
+            while (rs.next()) {
                 Vector row = new Vector();
 
                 row.add(rs.getString("ID"));
