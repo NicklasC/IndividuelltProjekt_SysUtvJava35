@@ -11,22 +11,22 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Vector;
 
-public  class GUI {
+public class GUI {
 
     // Core elements
-    JFrame jFrame =new JFrame("Fräck applikationstitel här...");
+    JFrame jFrame = new JFrame("Fräck applikationstitel här...");
 
-    final JLabel instructionLabel=new JLabel("Välj vad du vill göra");
-    JButton createCarMenuButton=new JButton("Skapa bil");
-    final JLabel currentCommandLabel=new JLabel("");
+    final JLabel instructionLabel = new JLabel("Välj vad du vill göra");
+    JButton createCarMenuButton = new JButton("Skapa bil");
+    final JLabel currentCommandLabel = new JLabel("");
     JSeparator separator = new JSeparator();
     final JLabel creationStatus = new JLabel("testing testing");
 
     // Car elements
     final JLabel carBrandLabel = new JLabel("Ange bilmärke");
     final JLabel carRegLabel = new JLabel("Ange registreringsnummer");
-    final JTextField carBrand=new JTextField();
-    final JTextField carRegNo=new JTextField();
+    final JTextField carBrand = new JTextField();
+    final JTextField carRegNo = new JTextField();
     JButton createCarButton = new JButton("Skapa bil");
 
     // Book elements
@@ -59,34 +59,39 @@ public  class GUI {
 
     //View Cars elements
     JButton viewCarsMenuButton = new JButton("Hantera bilar");
-    JTable carTable = new JTable(new DefaultTableModel(new Object[]{"Id", "Bilmärke", "Registreringsnummer", "Föremålstyp"},0));
+    JTable carTable = new JTable(new DefaultTableModel(new Object[]{"Id", "Bilmärke", "Registreringsnummer", "Föremålstyp"}, 0));
     DefaultTableModel carModel = (DefaultTableModel) carTable.getModel();
     JScrollPane carScrollPane = new JScrollPane(carTable);
 
     // Handle books elements
     JButton viewBooksMenuButton = new JButton("Hantera böcker");
-    JTable bookTable = new JTable(new DefaultTableModel(new Object[]{"Id", "Boknamn", "Författare förnamn", "Författare efternamn","Föremålstyp"},0));
+    JTable bookTable = new JTable(new DefaultTableModel(new Object[]{"Id", "Boknamn", "Författare förnamn", "Författare efternamn", "Föremålstyp"}, 0));
     DefaultTableModel bookModel = (DefaultTableModel) bookTable.getModel();
     JScrollPane bookScrollPane = new JScrollPane(bookTable);
 
+    // Handle persons elements
+    JButton viewPersonsMenuButton = new JButton("Hantera personer");
+    JTable personTable = new JTable(new DefaultTableModel(new Object[]{"Id", "Förnamn", "Efternamn", "Telefonnummer"}, 0));
+    DefaultTableModel personModel = (DefaultTableModel) personTable.getModel();
+    JScrollPane personScrollPane = new JScrollPane(personTable);
 
-    public GUI(){
+
+    public GUI() {
 
 
         // Setting JFrame settings
-        jFrame.setSize(1024,800);
+        jFrame.setSize(1024, 800);
         jFrame.setLayout(null);
 
 
 //////////////////////////////////////////
 
 
-
-    // ******* Car specific ********
+        // ******* Car specific ********
         // Menubutton: Create Car position
-        createCarMenuButton.setBounds(10,50,90,20);
-        createCarMenuButton.addActionListener(new ActionListener(){ // OBS: anonym inre klass!
-            public void actionPerformed(ActionEvent e){
+        createCarMenuButton.setBounds(10, 50, 90, 20);
+        createCarMenuButton.addActionListener(new ActionListener() { // OBS: anonym inre klass!
+            public void actionPerformed(ActionEvent e) {
                 hideAllNonObligatoryElements();
                 currentCommandLabel.setText("Skapa bil");
                 carBrandLabel.setVisible(true);
@@ -100,18 +105,18 @@ public  class GUI {
         });
 
         // Car brand
-        carBrandLabel.setBounds(10,120,80,20);
-        carBrand.setBounds(180,122, 150,20);
+        carBrandLabel.setBounds(10, 120, 80, 20);
+        carBrand.setBounds(180, 122, 150, 20);
 
         // Car reg no
-        carRegLabel.setBounds(10,150,160,20);
-        carRegNo.setBounds(180,152, 60,20);
+        carRegLabel.setBounds(10, 150, 160, 20);
+        carRegNo.setBounds(180, 152, 60, 20);
 
         // createCarButton
-        createCarButton.setBounds(10, 190,90,20);
-        createCarButton.addActionListener(new ActionListener(){ // OBS: anonym inre klass!
-            public void actionPerformed(ActionEvent e){
-                if(Car.createCar(carBrand.getText(), carRegNo.getText())){
+        createCarButton.setBounds(10, 190, 90, 20);
+        createCarButton.addActionListener(new ActionListener() { // OBS: anonym inre klass!
+            public void actionPerformed(ActionEvent e) {
+                if (Car.createCar(carBrand.getText(), carRegNo.getText())) {
                     creationStatus.setText("Bilen skapades.");
                     carBrand.setText("");
                     carRegNo.setText("");
@@ -124,18 +129,18 @@ public  class GUI {
 
 
         // ******** Book specific ************
-        bookTitleLabel.setBounds(10,120,80,20);
-        bookTitle.setBounds(180,122,150,20);
+        bookTitleLabel.setBounds(10, 120, 80, 20);
+        bookTitle.setBounds(180, 122, 150, 20);
 
-        bookAuthorNameLabel.setBounds(10,150,160,20);
-        bookAuthorName.setBounds(180,152,150,20);
+        bookAuthorNameLabel.setBounds(10, 150, 160, 20);
+        bookAuthorName.setBounds(180, 152, 150, 20);
 
-        bookAuthorSurnameLabel.setBounds(10,180,160,20);
-        bookAuthorSurname.setBounds(180,182,150,20);
+        bookAuthorSurnameLabel.setBounds(10, 180, 160, 20);
+        bookAuthorSurname.setBounds(180, 182, 150, 20);
 
-        createBookMenuButton.setBounds(110,50,110,20);
-        createBookMenuButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        createBookMenuButton.setBounds(110, 50, 110, 20);
+        createBookMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 hideAllNonObligatoryElements();
                 currentCommandLabel.setText("Skapa bok");
                 bookTitleLabel.setVisible(true);
@@ -148,10 +153,10 @@ public  class GUI {
             }
         });
 
-        createBookButton.setBounds(10,220,120,20);
-        createBookButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                if(Book.createBook(bookTitle.getText(), bookAuthorName.getText(),bookAuthorSurname.getText())){
+        createBookButton.setBounds(10, 220, 120, 20);
+        createBookButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (Book.createBook(bookTitle.getText(), bookAuthorName.getText(), bookAuthorSurname.getText())) {
                     creationStatus.setText("Boken skapades.");
                     bookTitle.setText("");
                     bookAuthorName.setText("");
@@ -161,10 +166,10 @@ public  class GUI {
                 }
             }
         });
-    // ***** Create person **************
-        createPersonMenuButton.setBounds(230,50,130,20);
-        createPersonMenuButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        // ***** Create person **************
+        createPersonMenuButton.setBounds(230, 50, 130, 20);
+        createPersonMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 hideAllNonObligatoryElements();
                 currentCommandLabel.setText("Skapa person");
                 personNameLabel.setVisible(true);
@@ -177,19 +182,19 @@ public  class GUI {
             }
         });
 
-        personNameLabel.setBounds(10,120,80,20);
-        personName.setBounds(180,122,150,20);
+        personNameLabel.setBounds(10, 120, 80, 20);
+        personName.setBounds(180, 122, 150, 20);
 
-        personSurnameLabel.setBounds(10,150,160,20);
-        personSurname.setBounds(180,152,150,20);
+        personSurnameLabel.setBounds(10, 150, 160, 20);
+        personSurname.setBounds(180, 152, 150, 20);
 
-        personPhoneNumberLabel.setBounds(10,180,160,20);
-        personPhoneNumber.setBounds(180,182,150,20);
+        personPhoneNumberLabel.setBounds(10, 180, 160, 20);
+        personPhoneNumber.setBounds(180, 182, 150, 20);
 
-        createPersonButton.setBounds(10,220,120,20);
-        createPersonButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
-                if(Person.createPerson(personName.getText(), personSurname.getText(),personPhoneNumber.getText())){
+        createPersonButton.setBounds(10, 220, 120, 20);
+        createPersonButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (Person.createPerson(personName.getText(), personSurname.getText(), personPhoneNumber.getText())) {
                     creationStatus.setText("Personen lades till.");
                     personName.setText("");
                     personSurname.setText("");
@@ -200,11 +205,11 @@ public  class GUI {
             }
         });
 
-// Show Cars
-        viewCarsMenuButton.setBounds(370,50,130,20);
-        carScrollPane.setBounds(10,120,700,200);
-        viewCarsMenuButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        // Show Cars
+        viewCarsMenuButton.setBounds(370, 50, 130, 20);
+        carScrollPane.setBounds(10, 120, 800, 400);
+        viewCarsMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 hideAllNonObligatoryElements();
                 currentCommandLabel.setText("Hantera bilar");
                 getAllCars();
@@ -212,11 +217,11 @@ public  class GUI {
             }
         });
 
-    // Show Books
-        viewBooksMenuButton.setBounds(510,50,130,20);
-        bookScrollPane.setBounds(10,120,700,200);
-        viewBooksMenuButton.addActionListener(new ActionListener(){
-            public void actionPerformed(ActionEvent e){
+        // Show Books
+        viewBooksMenuButton.setBounds(510, 50, 130, 20);
+        bookScrollPane.setBounds(10, 120, 800, 400);
+        viewBooksMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
                 hideAllNonObligatoryElements();
                 currentCommandLabel.setText("Hantera böcker");
                 getAllBooks();
@@ -224,26 +229,31 @@ public  class GUI {
             }
         });
 
+        // Show persons
+        viewPersonsMenuButton.setBounds(650, 50, 150, 20);
+        personScrollPane.setBounds(10, 120, 800, 400);
+        viewPersonsMenuButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                hideAllNonObligatoryElements();
+                currentCommandLabel.setText("Hantera personer");
+                getAllPersons();
+                personScrollPane.setVisible(true);
+            }
+        });
 
-
-
-
-
-
-    // ***** Shared
+        // ***** Shared
         // Current command label
         currentCommandLabel.setFont(new Font("Serif", Font.PLAIN, 14));
-        currentCommandLabel.setBounds(10,100,250,15);
+        currentCommandLabel.setBounds(10, 100, 250, 15);
 
 
         // Instructionslabel
-        instructionLabel.setBounds(10,30,250,15);
+        instructionLabel.setBounds(10, 30, 250, 15);
         // creation status
-        creationStatus.setBounds(10,250,300,15);
-
+        creationStatus.setBounds(10, 250, 300, 15);
 
         // Separator
-        separator.setBounds(10,90,980,20);
+        separator.setBounds(10, 90, 980, 20);
 
 
         // Adding objects
@@ -291,8 +301,13 @@ public  class GUI {
         jFrame.add(bookScrollPane);
 
 
-        jFrame.add(creationStatus);
+        // View persons
+        jFrame.add(viewPersonsMenuButton);
+        jFrame.add(personScrollPane);
 
+        // Common
+
+        jFrame.add(creationStatus);
 
 
         jFrame.setVisible(true);
@@ -300,7 +315,7 @@ public  class GUI {
 
     }
 
-    public void hideAllNonObligatoryElements(){
+    public void hideAllNonObligatoryElements() {
         // Cars
         carBrandLabel.setVisible(false);
         carBrand.setVisible(false);
@@ -332,7 +347,8 @@ public  class GUI {
         // View books
         bookScrollPane.setVisible(false);
 
-
+        // View persons
+        personScrollPane.setVisible(false);
 
         // Common
         creationStatus.setText("");
@@ -386,6 +402,26 @@ public  class GUI {
         }
     }
 
+    private void getAllPersons() {
+        Connection con = MySqlCon.getConn();
+        String query = "Select * from persons order by surname;"; // skapa en textsträng med SQL
+        try {
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            personModel.setRowCount(0);
+            while (rs.next()) { // loopa igenom resultatet
+                Vector row = new Vector();
 
-
+                row.add(rs.getString("ID"));
+                row.add(rs.getString("name"));
+                row.add(rs.getString("surname"));
+                row.add(rs.getString("phonenumber"));
+                personModel.addRow(row);
+            }
+            stmt.close();
+            con.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
